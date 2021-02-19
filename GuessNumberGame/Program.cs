@@ -14,15 +14,7 @@ namespace GuessNumberGame
 
             string input = Console.ReadLine();
 
-            int theNumber;
-
-            while (!int.TryParse(input, out theNumber))
-            {
-                Console.WriteLine("This is not an integer number. Enter the integer number:");
-                input = Console.ReadLine();
-            }
-
-            theNumber = int.Parse(input);
+            int theNumber = ValidateInput(input);
 
             Console.WriteLine("Great, the number is valid! Press \"Enter\" to continue.");
             Console.Clear();
@@ -38,13 +30,7 @@ namespace GuessNumberGame
                 Console.WriteLine($"Attempt #{guessCounter}");
                 Console.WriteLine("Enter the integer number: ");
                 input = Console.ReadLine();
-                while (!int.TryParse(input, out guess))
-                {
-                    Console.WriteLine("This is not an integer number. Enter the integer number:");
-                    input = Console.ReadLine();
-                }
-
-                guess = int.Parse(input);
+                guess = ValidateInput(input);
 
                 if (guess > theNumber)
                 {
@@ -58,6 +44,16 @@ namespace GuessNumberGame
             Console.WriteLine("Congratulations! You win!");
             Console.WriteLine($"Number of attempts: {guessCounter}");
             Console.ReadKey();
+        }
+        public static int ValidateInput(string str)
+        {
+            int theNumber;
+            while (!int.TryParse(str, out theNumber))
+            {
+                Console.WriteLine("This is not an integer number. Enter the integer number:");
+                str = Console.ReadLine();
+            }
+            return int.Parse(str);
         }
     }
 }
