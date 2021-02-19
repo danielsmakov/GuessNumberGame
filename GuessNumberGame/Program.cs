@@ -31,9 +31,11 @@ namespace GuessNumberGame
             Console.WriteLine("Player 2, you should guess the number of Player 1.");
 
             int guess;
-
+            int guessCounter = 0;
             do
             {
+                guessCounter++;
+                Console.WriteLine($"Attempt #{guessCounter}");
                 Console.WriteLine("Enter the integer number: ");
                 input = Console.ReadLine();
                 while (!int.TryParse(input, out guess))
@@ -46,14 +48,15 @@ namespace GuessNumberGame
 
                 if (guess > theNumber)
                 {
-                    Console.WriteLine("Your guess is LARGER than the number. Try again.");
+                    Console.WriteLine("Your guess is LARGER than the number. Try again.\n");
                 }
                 else if (guess < theNumber)
                 {
-                    Console.WriteLine("Your guess is LESS than the number. Try again.");
+                    Console.WriteLine("Your guess is LESS than the number. Try again.\n");
                 }
             } while (guess != theNumber);
             Console.WriteLine("Congratulations! You win!");
+            Console.WriteLine($"Number of attempts: {guessCounter}");
             Console.ReadKey();
         }
     }
