@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace GuessNumberGame
 {
@@ -6,8 +7,8 @@ namespace GuessNumberGame
     {
         static void Main(string[] args)
         {
-            string firstPlayerName = string.Empty;
-            string secondPlayerName = string.Empty;
+            string firstPlayerName;
+            string secondPlayerName;
             string input;
 
             // Instructions for players
@@ -38,7 +39,7 @@ namespace GuessNumberGame
             Console.ReadKey();
             Console.Clear();
 
-            //Player 1 part
+            //Part of Player 1
             Console.WriteLine($"{firstPlayerName}, please, enter the integer number: ");
 
             input = Console.ReadLine();
@@ -50,11 +51,12 @@ namespace GuessNumberGame
             Console.ReadKey();
             Console.Clear();
 
-            //Player 2 part
+            //Part of Player 2
             Console.WriteLine($"{secondPlayerName}, you should guess the number of {firstPlayerName}. You have {attemptLimiter} attempts.");
 
             int guess;
             int attemptCounter = 0;
+            Dictionary<int, string> attemptHistory = new Dictionary<int, string>();
 
             do
             {
@@ -63,26 +65,46 @@ namespace GuessNumberGame
                     Console.WriteLine($"You loose, {secondPlayerName}! You spent all {attemptLimiter} attempts.");
                     break;
                 }
+
                 attemptCounter++;
+
+                //Checks if the attemptHistory list is empty. If not, outputs the following message.
+                if (attemptHistory.Count != 0)
+                {
+                    Console.WriteLine("You already tried the following numbers:");
+                }
+
+                // Outputs the history of attempts
+                foreach (KeyValuePair<int, string> kvp in attemptHistory)
+                {
+                    Console.WriteLine(kvp.Key + " - " + kvp.Value);
+                }
+
                 Console.WriteLine($"Attempt #{attemptCounter}");
                 Console.WriteLine("Enter the integer number: ");
                 input = Console.ReadLine();
                 input = ValidateInputIntegerNumber(input);
                 guess = int.Parse(input);
 
+                // Evalueates the current guess
                 if (guess > theNumber)
                 {
                     Console.WriteLine("Your guess is LARGER than the number. Try again.\n");
+                    attemptHistory.Add(guess, "LARGER");
+                    Console.Clear();
                 }
                 else if (guess < theNumber)
                 {
                     Console.WriteLine("Your guess is LESS than the number. Try again.\n");
+                    attemptHistory.Add(guess, "LESS");
+                    Console.Clear();
                 }
                 else
                 {
                     Console.WriteLine($"Congratulations, {secondPlayerName}! You win!");
                     Console.WriteLine($"You spent {attemptCounter} out of {attemptLimiter} attempts.");
                 }
+                
             } while (guess != theNumber);
             
             Console.ReadKey();
