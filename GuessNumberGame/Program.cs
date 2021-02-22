@@ -89,14 +89,36 @@ namespace GuessNumberGame
                 // Evalueates the current guess
                 if (guess > theNumber)
                 {
+                    try
+                    {
+                        attemptHistory.Add(guess, "LARGER");
+                    }
+                    catch (ArgumentException)
+                    {
+                        Console.WriteLine($"{secondPlayerName}, you already entered this number! Try another one. (Press \"Enter\" to continue.)");
+                        Console.ReadKey();
+                        Console.Clear();
+                        attemptCounter--;
+                        continue;
+                    }
                     Console.WriteLine("Your guess is LARGER than the number. Try again.\n");
-                    attemptHistory.Add(guess, "LARGER");
                     Console.Clear();
                 }
                 else if (guess < theNumber)
                 {
+                    try
+                    {
+                        attemptHistory.Add(guess, "LESS");
+                    }
+                    catch (ArgumentException)
+                    {
+                        Console.WriteLine($"{secondPlayerName}, you already entered this number! Try another one. (Press \"Enter\" to continue.)");
+                        Console.ReadKey();
+                        Console.Clear();
+                        attemptCounter--;
+                        continue;
+                    }
                     Console.WriteLine("Your guess is LESS than the number. Try again.\n");
-                    attemptHistory.Add(guess, "LESS");
                     Console.Clear();
                 }
                 else
@@ -108,6 +130,7 @@ namespace GuessNumberGame
             } while (guess != theNumber);
             
             Console.ReadKey();
+            Environment.Exit(0);
         }
         /// <summary>
         /// Checks whether input string is convertable to integer. If no, requires to input again and checks again.
